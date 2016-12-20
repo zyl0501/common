@@ -1,5 +1,6 @@
 package com.ray.common.lang;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.ray.common.util.HanYuToPinYin;
@@ -35,14 +36,14 @@ public final class Strings {
         return sb.toString();
     }
 
-    public static boolean isPhoneNum(String phoneNum) {
+    public static boolean isPhoneNum(CharSequence phoneNum) {
         if (phoneNum == null || phoneNum.length() != 11) return false;
         if (!TextUtils.isDigitsOnly(phoneNum)) return false;
         Pattern p = Pattern.compile("^((13[0-9])|(14[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$");
         return p.matcher(phoneNum).find();
     }
 
-    public static boolean isTelNum(String num) {
+    public static boolean isTelNum(CharSequence num) {
         if (TextUtils.isEmpty(num)) return false;
         Pattern p = Pattern.compile("(\\(\\d{3,4}\\)|\\d{3,4}-|\\s)?\\d{8}");
 //        Pattern p = Pattern.compile("^(0[0-9]{2,3}\\-)?([2-9][0-9]{6,7})+(\\-[0-9]{1,4})?$");
@@ -63,6 +64,15 @@ public final class Strings {
             }
         }
         return true;
+    }
+
+    /**
+     * 密码是否过于简单
+     */
+    public static boolean isSimgplePassword(@NonNull String password) {
+        if (TextUtils.isDigitsOnly(password)) return true;
+        if (password.length() < 6) return true;
+        return false;
     }
 
     /**
