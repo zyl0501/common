@@ -8,24 +8,21 @@ import java.util.concurrent.Callable;
 
 /**
  * 应用通用callback,可以在task和Api通用
- * <p/>
+ * <p>
  * 如果是在Task里使用:
  * ----1.任务执行时调用doBackground
  * ----2.任务执行成功调用onComplete
  * ----3.任务执行异常调用onException
  * ----4.任务被取消会调用onCancelled
- * <p/>
+ * <p>
  * 如果是在Api里调用
  * ----1.请求正常返会回调onResponse
  * ----2.请求异常返会回调onException
  * ----3.返回结果success==true会回调onComplete
  * ----4.返回结果success=false会回调onFailure
- * <p/>
+ * <p>
  * 如果要更新进度条请在doBackground手动调用progress方法更新进度
- * <p/>
- * Created by yxx on 2015/8/14.
- *
- * @author ohun@live.cn
+ * <p>
  */
 public abstract class Callback<Result> implements Callable<Result>, ITaskCallback<Result>, ICallback<Result> {
 
@@ -49,7 +46,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * Callable.call的别名，表明该方法在后台线程中执行
      *
-     * @return
      * @throws Exception
      */
     public Result doBackground() throws Exception {
@@ -70,7 +66,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * 任务执行进度的回调方法，在主线程里执行
      *
-     * @param progress
      */
     @Override
     public void onProgress(long total, long current, Object... progress) {
@@ -80,7 +75,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * 任务执行失败的回调方法，在主线程里执行
      *
-     * @param t
      */
     @Override
     public void onException(Throwable t) {
@@ -92,7 +86,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * 任务执行被取消的回调方法，在主线程里执行
      *
-     * @param
      */
     @Override
     public void onCancelled() {
@@ -102,8 +95,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * Api调用失败的回调方法，在主线程里执行
      *
-     * @param errorCode
-     * @param errorMsg
      */
     public void onFailure(int errorCode, String errorMsg) {
        // if (!Strings.isBlank(errorMsg)) Toasts.showLong(App.ctx(), errorMsg);
@@ -112,7 +103,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * Api调用结束的回调方法，在主线程里执行
      *
-     * @param
      */
     @Override
     public void onResponse(IResult<Result> result) {
@@ -123,7 +113,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * 如果要更新进度条请在doBackground调用此方法
      *
-     * @param progress
      * @throws Exception
      */
     protected final void progress(final long total, final long current, final Object... progress) throws Exception {
@@ -139,7 +128,6 @@ public abstract class Callback<Result> implements Callable<Result>, ITaskCallbac
     /**
      * 此方法不允许调用，可能产生死循环
      *
-     * @return
      * @throws Exception
      */
     @Override
