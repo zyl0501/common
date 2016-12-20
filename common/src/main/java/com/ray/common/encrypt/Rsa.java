@@ -2,12 +2,15 @@ package com.ray.common.encrypt;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
@@ -17,6 +20,7 @@ public final class Rsa {
     public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
 
+
     private static PublicKey getPublicKeyFromX509(String var0, String var1) throws NoSuchAlgorithmException, Exception {
         byte[] var2 = Base64.decode(var1);
         X509EncodedKeySpec var3 = new X509EncodedKeySpec(var2);
@@ -24,10 +28,32 @@ public final class Rsa {
         return var4.generatePublic(var3);
     }
 
+
+    /**
+     * 针对C#的Rsa的加密
+     *
+     * @param encryptrtext 待加密字符串
+     * @param publickey  公钥
+     * @return
+     */
+    public static String encryptC(String encryptrtext, String publickey) {
+        try {
+            byte[] m = Base64.decode(publickey);
+            byte[] e = Base64.decode("AQAB");
+            BigInteger b1 = new BigInteger(1, m);
+            BigInteger b2 = new BigInteger(1, e);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA","BC");
+            RSAPublicKeySpec keySpec = new RSAPublicKeySpec(b1, b2);
+            return encrypt(encryptrtext,(RSAPublicKey)keyFactory.generatePublic(keySpec));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static String encrypt(String var0, String var1) {
         String var2 = null;
         ByteArrayOutputStream var3 = null;
-
         try {
             PublicKey var4 = getPublicKeyFromX509("RSA", var1);
             Cipher var5 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
@@ -42,6 +68,35 @@ public final class Rsa {
 
             var2 = new String(Base64.encode(var3.toByteArray()));
         } catch (Exception var17) {
+        } finally {
+            if (var3 != null) {
+                try {
+                    var3.close();
+                } catch (IOException var16) {
+                }
+            }
+        }
+        return var2;
+    }
+
+    public static String encrypt(String var0,PublicKey publicKey) {
+        String var2 = null;
+        ByteArrayOutputStream var3 = null;
+
+        try {
+            Cipher var5 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            var5.init(1, publicKey);
+            byte[] var6 = var0.getBytes("UTF-8");
+            int var7 = var5.getBlockSize();
+            var3 = new ByteArrayOutputStream();
+
+            for (int var8 = 0; var8 < var6.length; var8 += var7) {
+                var3.write(var5.doFinal(var6, var8, var6.length - var8 < var7 ? var6.length - var8 : var7));
+            }
+
+            var2 = Base64.encode(var3.toByteArray());
+        } catch (Exception var17) {
+            var17.printStackTrace();
         } finally {
             if (var3 != null) {
                 try {

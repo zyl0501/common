@@ -6,9 +6,6 @@ import java.nio.charset.Charset;
 /**
  * 取得给定汉字串的首字母串,即声母串
  *
- * @author ohun@live.cn
- * @version 1.0
- * @date 2004-02-19
  * 注：只支持GB2312字符集中的汉字
  */
 public final class HanYuToPinYin {

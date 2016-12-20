@@ -2,6 +2,8 @@ package com.ray.common.lang;
 
 import android.text.TextUtils;
 
+import com.ray.common.util.HanYuToPinYin;
+
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
