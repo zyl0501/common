@@ -32,6 +32,10 @@ public final class Toasts {
         makeShow(context, text, Toast.LENGTH_SHORT);
     }
 
+    public static void show(final Context context, final int resId, final Object... args) {
+        makeShow(context, resId, Toast.LENGTH_SHORT, args);
+    }
+
     /**
      * Toast the long text
      *
