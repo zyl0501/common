@@ -23,6 +23,16 @@ public final class Toasts {
     }
 
     /**
+     * Toast the short text
+     *
+     * @param context
+     * @param text
+     */
+    public static void show(final Context context,final CharSequence text) {
+        makeShow(context, text, Toast.LENGTH_SHORT);
+    }
+
+    /**
      * Toast the long text
      *
      * @param context
@@ -82,7 +92,7 @@ public final class Toasts {
         }
     }
 
-    private static void makeShow(final Context context, final String text, final int type) {
+    private static void makeShow(final Context context, final CharSequence text, final int type) {
         if (context == null) return;
         if (Threads.inMainThread()) {
             Toast.makeText(context, text, type).show();
