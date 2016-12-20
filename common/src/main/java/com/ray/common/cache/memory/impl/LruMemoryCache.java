@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * A cache that holds strong references to a limited number of Ts. Each time a T is accessed, it is moved to
  * the head of a queue. When a T is added to a full cache, the T at the end of that queue is evicted and may
- * become eligible for garbage collection.<br />
- * <br />
+ * become eligible for garbage collection.<br>
+ * <br>
  * <b>NOTE:</b> This cache uses only strong references for stored Ts.
  *
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)

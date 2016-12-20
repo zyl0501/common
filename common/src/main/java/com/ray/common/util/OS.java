@@ -49,7 +49,6 @@ public final class OS {
     /**
      * 获得SD卡总大小
      *
-     * @return
      */
     public static String getSDTotalMsg(Context context) {
         long totalSize = getSDTotalSize(context);
@@ -59,7 +58,6 @@ public final class OS {
     /**
      * 获得SD卡总大小
      *
-     * @return
      */
     public static long getSDTotalSize(Context context) {
         File path = Environment.getExternalStorageDirectory();
@@ -73,7 +71,6 @@ public final class OS {
     /**
      * 获得sd卡剩余容量，即可用大小
      *
-     * @return
      */
     public static String getSDAvailableMsg(Context context) {
         long availableSize = getSDAvailableSize(context);
@@ -83,7 +80,6 @@ public final class OS {
     /**
      * 获得sd卡剩余容量，即可用大小
      *
-     * @return
      */
     public static long getSDAvailableSize(Context context) {
         File path = Environment.getExternalStorageDirectory();
@@ -97,7 +93,6 @@ public final class OS {
     /**
      * 获得机身内存总大小
      *
-     * @return
      */
     public static String getRomTotalMsg(Context context) {
         long totalSize = getRomTotalSize(context);
@@ -107,7 +102,6 @@ public final class OS {
     /**
      * 获得机身内存总大小
      *
-     * @return
      */
     public static long getRomTotalSize(Context context) {
         File path = Environment.getDataDirectory();
@@ -121,7 +115,6 @@ public final class OS {
     /**
      * 获得机身可用内存
      *
-     * @return
      */
     public static String getRomAvailableMsg(Context context) {
         long availableSize = getRomAvailableSize(context);
@@ -131,7 +124,6 @@ public final class OS {
     /**
      * 获得机身可用内存
      *
-     * @return
      */
     public static long getRomAvailableSize(Context context) {
         File path = Environment.getDataDirectory();

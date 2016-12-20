@@ -20,7 +20,7 @@ public final class SDCards {
      * Android defines cache directory on device's file system.
      *
      * @param context Application context
-     * @return Cache {@link File directory}.<br />
+     * @return Cache {@link File directory}.<br>
      * <b>NOTE:</b> Can be null in some unpredictable cases (if SD card is unmounted and
      * {@link android.content.Context#getCacheDir() Context.getCacheDir()} returns null).
      */
@@ -35,7 +35,7 @@ public final class SDCards {
      *
      * @param context        Application context
      * @param preferExternal Whether prefer external location for cache
-     * @return Cache {@link File directory}.<br />
+     * @return Cache {@link File directory}.<br>
      * <b>NOTE:</b> Can be null in some unpredictable cases (if SD card is unmounted and
      * {@link android.content.Context#getCacheDir() Context.getCacheDir()} returns null).
      */

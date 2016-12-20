@@ -8,7 +8,6 @@ import java.nio.charset.Charset;
  *
  * @author ohun@live.cn
  * @version 1.0
- * @date 2004-02-19
  * 注：只支持GB2312字符集中的汉字
  */
 public final class HanYuToPinYin {
