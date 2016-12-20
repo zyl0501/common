@@ -16,6 +16,8 @@ import android.os.StatFs;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.ray.common.encrypt.MD5;
 
@@ -34,7 +36,7 @@ public final class OS {
         try {
             int pid = android.os.Process.myPid();
             ActivityManager mActivityManager = (ActivityManager) context
-                    .getSystemService(Context.ACTIVITY_SERVICE);
+                .getSystemService(Context.ACTIVITY_SERVICE);
             for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
                 if (appProcess.pid == pid) {
                     return appProcess.processName;
@@ -189,13 +191,13 @@ public final class OS {
         return appTask.get(0).topActivity;
     }
 
-
     public static String getMid(Context context) {
         String imei = getImei(context);
         String AndroidID = getAndroidId(context);
         String serialNo = getSerialNum();
         return MD5.encrypt(imei + AndroidID + serialNo);
     }
+
 
     private static String generateImei() {
         StringBuilder imei = new StringBuilder();
@@ -236,11 +238,11 @@ public final class OS {
         String imei = null;
         try {
             SharedPreferences sp = context.getSharedPreferences(IMEI,
-                    Context.MODE_PRIVATE);
+                Context.MODE_PRIVATE);
             imei = sp.getString(IMEI, null);
             if (imei == null || imei.length() == 0) {
                 TelephonyManager tm = (TelephonyManager) context
-                        .getSystemService(Activity.TELEPHONY_SERVICE);
+                    .getSystemService(Activity.TELEPHONY_SERVICE);
                 imei = tm.getDeviceId(); // 获取imei的方法修改
                 if (imei == null || imei.length() == 0) {
                     imei = generateImei();
@@ -270,11 +272,11 @@ public final class OS {
         String imsi = null;
         try {
             SharedPreferences sp = context.getSharedPreferences(IMEI,
-                    Context.MODE_PRIVATE);
+                Context.MODE_PRIVATE);
             imsi = sp.getString(IMSI, null);
             if (imsi == null || imsi.length() == 0) {
                 TelephonyManager tm = (TelephonyManager) context
-                        .getSystemService(Context.TELEPHONY_SERVICE);
+                    .getSystemService(Context.TELEPHONY_SERVICE);
                 imsi = tm.getSubscriberId();
                 if (imsi == null || imsi.length() == 0) {
                     imsi = generateImei();
@@ -302,16 +304,16 @@ public final class OS {
     public static String getLocalMacAddress(Context context) {
         try {
             WifiManager wifi = (WifiManager) context
-                    .getSystemService(Context.WIFI_SERVICE);
+                .getSystemService(Context.WIFI_SERVICE);
             WifiInfo info = wifi.getConnectionInfo();
             String wifiaddr = info.getMacAddress();
             if (wifiaddr == null || "".equals(wifiaddr)) {
                 SharedPreferences sp = context.getSharedPreferences(MACADDRESS,
-                        Context.MODE_PRIVATE);
+                    Context.MODE_PRIVATE);
                 wifiaddr = sp.getString(MACADDRESS, "");
             } else {
                 SharedPreferences sp = context.getSharedPreferences(MACADDRESS,
-                        Context.MODE_PRIVATE);
+                    Context.MODE_PRIVATE);
                 Editor editor = sp.edit();
                 editor.putString(MACADDRESS, wifiaddr);
                 editor.apply();
@@ -330,7 +332,7 @@ public final class OS {
      */
     static public String getOriginalImei(Context context) {
         TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
+            .getSystemService(Context.TELEPHONY_SERVICE);
         String imei = tm.getDeviceId();
         if (imei != null)
             imei = imei.trim();
@@ -345,7 +347,7 @@ public final class OS {
      */
     static public String getOriginalImsi(Context context) {
         TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
+            .getSystemService(Context.TELEPHONY_SERVICE);
         String imsi = tm.getSubscriberId();
         if (imsi != null)
             imsi = imsi.trim();
@@ -364,9 +366,17 @@ public final class OS {
         return serialNum;
     }
 
+    public static String getICCID(Context context){
+        TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String ICCID = mTelephonyMgr.getSimSerialNumber();
+        if (ICCID != null)
+            ICCID = ICCID.trim();
+        return ICCID;
+    }
+
     public static String getAndroidId(Context context) {
         return Settings.Secure.getString(
-                context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     public static boolean isXiaoMiMobile() {
@@ -377,4 +387,10 @@ public final class OS {
         return "samsung".equalsIgnoreCase(Build.BRAND);
     }
 
+    public static DisplayMetrics getScreenHeightAndWidth(Context context) {
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(metrics);
+        return metrics;
+    }
 }
