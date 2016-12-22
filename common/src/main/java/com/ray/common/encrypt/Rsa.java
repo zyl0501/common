@@ -84,17 +84,19 @@ public final class Rsa {
         ByteArrayOutputStream var3 = null;
 
         try {
-            Cipher var5 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            var5.init(1, publicKey);
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(1, publicKey);
             byte[] var6 = var0.getBytes("UTF-8");
-            int var7 = var5.getBlockSize();
-            var3 = new ByteArrayOutputStream();
-
-            for (int var8 = 0; var8 < var6.length; var8 += var7) {
-                var3.write(var5.doFinal(var6, var8, var6.length - var8 < var7 ? var6.length - var8 : var7));
+            int blockSize = cipher.getBlockSize();
+            if(blockSize > 0) {
+                var3 = new ByteArrayOutputStream();
+                for (int var8 = 0; var8 < var6.length; var8 += blockSize) {
+                    var3.write(cipher.doFinal(var6, var8, var6.length - var8 < blockSize ? var6.length - var8 : blockSize));
+                }
+                var2 = Base64.encode(var3.toByteArray());
+            }else{
+                var2 = Base64.encode(cipher.doFinal(var6));
             }
-
-            var2 = Base64.encode(var3.toByteArray());
         } catch (Exception var17) {
             var17.printStackTrace();
         } finally {
